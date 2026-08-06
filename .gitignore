@@ -104,3 +104,14 @@ InitTestScene*.unity*
 
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
+
+MyShooter/Library
+MyShooter/Temp
+MyShooter/UserSettings
+.DS_Store
+EditorSettings.asset
+VersionControlSettings.asset
+boot.config
+ClusterInputManager.asset
+MemorySettings.asset
+Settings.json
