@@ -2,6 +2,8 @@ namespace FXs.Shooter
 {
     public class ProjectilePhysics : IGameEntity
     {
+        private UIController uIController;
+
         public void Init()
         {
 
@@ -9,12 +11,16 @@ namespace FXs.Shooter
 
         public void Setup(GameContext context)
         {
-            
+            if (context.TryGetEntity(out UIController uIController))
+            {
+                this.uIController = uIController;
+            }
         }
 
         public void StartGame()
         {
-
+            PowerChanged(uIController.ShotPower);
+            uIController.OnPowerChanged += PowerChanged;
         }
 
         public void UpdateGame()
@@ -29,7 +35,12 @@ namespace FXs.Shooter
 
         public void EndGame()
         {
-            
+            uIController.OnPowerChanged -= PowerChanged;
+        }
+
+        private void PowerChanged(int power)
+        {
+            UnityEngine.Debug.Log($"PowerChanged: {power}");
         }
     }
 }

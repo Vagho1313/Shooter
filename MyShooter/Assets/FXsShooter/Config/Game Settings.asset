@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f76f4ea75e3774ea49afcb6194cfb68a, type: 3}
   m_Name: Game Settings
   m_EditorClassIdentifier: 
+  minPower: 15
+  maxPower: 100
