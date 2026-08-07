@@ -14,3 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minPower: 15
   maxPower: 100
+  maxHorizontalAngle: 30
+  maxVerticalAngle: 30
+  horizontalSpeed: 90
+  verticalSpeed: 90
