@@ -27,6 +27,10 @@ namespace FXs.Shooter
         [SerializeField] private float cameraShakeAttenuation;
         [SerializeField] private AnimationCurve cameraShakeCurve;
 
+        [Space(10), Header("Physics")]
+        [SerializeField] private Vector3 gravity;
+        [SerializeField] private Projectile projectilePrefab;
+
         public int MinPower => minPower;
         public int MaxPower => maxPower;
 
@@ -42,6 +46,13 @@ namespace FXs.Shooter
         public float CameraShakeAmplitude => cameraShakeAmplitude;
         public float CameraShakeAttenuation => cameraShakeAttenuation;
         public Func<float, float> CameraShakeCurve => (float power) => cameraShakeCurve.Evaluate(power);
+
+        public Vector3 Gravity => gravity;
+
+        public ObjectPool<Projectile> CreateProjectilePool()
+        {
+            return new ObjectPool<Projectile>(projectilePrefab);
+        }
 
         public override void Init()
         {

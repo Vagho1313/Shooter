@@ -59,7 +59,7 @@ namespace FXs.Shooter
             projectilePhysics.OnShot -= ProjectileShot;
         }
 
-        private void ProjectileShot(int power)
+        private void ProjectileShot(int power, Vector3 position, Vector3 direction)
         {
             amplitude = power * settings.CameraShakeAmplitude / settings.MaxPower;
             shaking = true;

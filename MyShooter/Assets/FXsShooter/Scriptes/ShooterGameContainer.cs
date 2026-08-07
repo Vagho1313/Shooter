@@ -9,12 +9,14 @@ namespace FXs.Shooter
             ITrajectoryRenderer trajectoryRenderer = new TrajectoryRenderer();
             IProjectilePhysics projectilePhysics = new ProjectilePhysics();
             IEffectsController effectsController = new EffectsController();
+            IProjectileFactory projectileFactory = new ProjectileFactory();
 
             return new List<IGameEntity>
             {
                 trajectoryRenderer,
                 projectilePhysics,
-                effectsController
+                effectsController,
+                projectileFactory
             };
         }
     }

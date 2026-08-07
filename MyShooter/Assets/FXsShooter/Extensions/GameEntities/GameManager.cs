@@ -44,7 +44,7 @@ namespace FXs
 
         private void OnDisable()
         {
-            cycleController.EndGame();
+            //cycleController.EndGame();
         }
     }
 

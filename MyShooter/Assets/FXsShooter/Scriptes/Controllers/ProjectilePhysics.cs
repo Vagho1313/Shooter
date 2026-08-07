@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace FXs.Shooter
 {
@@ -7,9 +8,13 @@ namespace FXs.Shooter
         private IUIController uIController;
 
         private IInputController inputController;
+        private ICannonController cannonController;
+        private IProjectileFactory projectileFactory;
+        private ShooterGameSettings settings;
         private int power;
 
-        public event Action<int> OnShot;
+        public event Action<int, Vector3, Vector3> OnShot;
+        public event Action<Projectile> OnProjectileDestroyed;
 
         public void Init()
         {
@@ -27,6 +32,21 @@ namespace FXs.Shooter
             {
                 this.inputController = inputController;
             }
+
+            if (context.TryGetEntity(out ICannonController cannonController))
+            {
+                this.cannonController = cannonController;
+            }
+
+            if (context.TryGetEntity(out IProjectileFactory projectileFactory))
+            {
+                this.projectileFactory = projectileFactory;
+            }
+
+            if (context.TryGetContainer(out ShooterGameSettings settings))
+            {
+                this.settings = settings;
+            }
         }
 
         public void StartGame()
@@ -43,7 +63,18 @@ namespace FXs.Shooter
 
         public void FixedUpdateGame()
         {
-            
+            if(projectileFactory == null)
+            {
+                return;
+            }
+            float timeStep = Time.fixedDeltaTime;
+
+            foreach (var projectile in projectileFactory.Projectiles)
+            {
+                projectile.velocity += timeStep * settings.Gravity;
+                projectile.transform.position += timeStep * projectile.velocity;
+                projectile.transform.LookAt(projectile.transform.position + projectile.velocity, Vector3.up);
+            }
         }
 
         public void EndGame()
@@ -54,14 +85,14 @@ namespace FXs.Shooter
 
         private void ShotInput()
         {
-            UnityEngine.Debug.Log($"ShotInput: {power}");
-            OnShot?.Invoke(power);
+            Debug.Log($"ShotInput: {power}");
+            OnShot?.Invoke(power, cannonController.Position, cannonController.Direction);
         }
 
         private void PowerChanged(int power)
         {
             this.power = power;
-            UnityEngine.Debug.Log($"PowerChanged: {power}");
+            Debug.Log($"PowerChanged: {power}");
         }
     }
 }
