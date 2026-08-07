@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace FXs.Shooter
 {
-    public class EffectsController : IEffectsController
+    public class ITrajectoryRenderer : IGameEntity
     {
         public void Init()
         {
@@ -37,4 +33,3 @@ namespace FXs.Shooter
         }
     }
 }
-

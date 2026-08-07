@@ -33,6 +33,21 @@ namespace FXs
                     {
                         Debug.LogWarning(entity.GetType() + " already exist");
                     }
+
+                    Type type = entity.GetType();
+
+                    foreach (Type interfaceType in type.GetInterfaces())
+                    {
+                        if (interfaceType == typeof(IGameEntity))
+                        {
+                            continue;
+                        }
+
+                        if (!_entities.TryAdd(interfaceType, entity))
+                        {
+                            Debug.LogWarning($"{interfaceType.Name} already exists");
+                        }
+                    }
                 }
             }
         }

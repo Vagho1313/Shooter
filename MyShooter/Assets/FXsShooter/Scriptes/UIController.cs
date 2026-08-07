@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace FXs.Shooter
 {
-    public class UIController : MonoGameEntity
+    public class UIController : MonoGameEntity, IUIController
     {
         [SerializeField] private PowerUI powerUI;
 

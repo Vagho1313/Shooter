@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace FXs.Shooter
 {
-    public class InputController : MonoGameEntity
+    public class InputController : MonoGameEntity, IInputController
     {
         public event Action<float, Vector2> OnAim;
         public event Action OnShoot;

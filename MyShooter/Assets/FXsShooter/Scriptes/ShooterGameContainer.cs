@@ -6,9 +6,9 @@ namespace FXs.Shooter
     {
         public override List<IGameEntity> AddGameEntities()
         {
-            TrajectoryRenderer trajectoryRenderer = new TrajectoryRenderer();
-            ProjectilePhysics projectilePhysics = new ProjectilePhysics();
-            EffectsController effectsController = new EffectsController();
+            ITrajectoryRenderer trajectoryRenderer = new TrajectoryRenderer();
+            IProjectilePhysics projectilePhysics = new ProjectilePhysics();
+            IEffectsController effectsController = new EffectsController();
 
             return new List<IGameEntity>
             {

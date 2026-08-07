@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace FXs.Shooter
 {
-    public class CannonController : MonoGameEntity
+    public class CannonController : MonoGameEntity, ICannonController
     {
         [SerializeField] private Transform pivot;
         [SerializeField] private Transform cannon;
@@ -13,9 +13,9 @@ namespace FXs.Shooter
         private float amplitude;
         private bool shaking;
 
-        private InputController inputController;
+        private IInputController inputController;
         private ShooterGameSettings settings;
-        private ProjectilePhysics projectilePhysics;
+        private IProjectilePhysics projectilePhysics;
 
         public override void Init()
         {
@@ -29,12 +29,12 @@ namespace FXs.Shooter
                 this.settings = settings;
             }
 
-            if(context.TryGetEntity(out InputController inputController))
+            if(context.TryGetEntity(out IInputController inputController))
             {
                 this.inputController = inputController;
             }
 
-            if (context.TryGetEntity(out ProjectilePhysics projectilePhysics))
+            if (context.TryGetEntity(out IProjectilePhysics projectilePhysics))
             {
                 this.projectilePhysics = projectilePhysics;
             }

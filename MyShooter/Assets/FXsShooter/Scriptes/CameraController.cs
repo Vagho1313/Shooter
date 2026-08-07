@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace FXs.Shooter
 {
-    public class CameraController : MonoGameEntity
+    public class CameraController : MonoGameEntity, ICameraController
     {
-        private ProjectilePhysics projectilePhysics;
+        private IProjectilePhysics projectilePhysics;
         private ShooterGameSettings settings;
         private float amplitude;
         private bool shaking;
@@ -18,7 +18,7 @@ namespace FXs.Shooter
 
         public override void Setup(GameContext context)
         {
-            if (context.TryGetEntity(out ProjectilePhysics projectilePhysics))
+            if (context.TryGetEntity(out IProjectilePhysics projectilePhysics))
             {
                 this.projectilePhysics = projectilePhysics;
             }

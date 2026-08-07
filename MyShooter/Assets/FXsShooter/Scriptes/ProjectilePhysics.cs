@@ -2,15 +2,14 @@ using System;
 
 namespace FXs.Shooter
 {
-    public class ProjectilePhysics : IGameEntity
+    public class ProjectilePhysics : IProjectilePhysics
     {
-        private UIController uIController;
+        private IUIController uIController;
 
-        private InputController inputController;
+        private IInputController inputController;
         private int power;
 
         public event Action<int> OnShot;
-
 
         public void Init()
         {
@@ -19,12 +18,12 @@ namespace FXs.Shooter
 
         public void Setup(GameContext context)
         {
-            if (context.TryGetEntity(out UIController uIController))
+            if (context.TryGetEntity(out IUIController uIController))
             {
                 this.uIController = uIController;
             }
 
-            if (context.TryGetEntity(out InputController inputController))
+            if (context.TryGetEntity(out IInputController inputController))
             {
                 this.inputController = inputController;
             }
