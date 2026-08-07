@@ -39,8 +39,8 @@ namespace FXs.Shooter
             if(shaking)
             {
                 float deltaTime = Time.deltaTime;
-                transform.localPosition = new Vector3(amplitude * Mathf.Sin(2f * Mathf.PI * settings.ShakeCurve(amplitude / settings.ShakeAmplitude)), 0f, 0f);
-                amplitude -= settings.ShakeAttenuation * deltaTime;
+                transform.localPosition = new Vector3(amplitude * Mathf.Sin(2f * Mathf.PI * settings.CameraShakeCurve(amplitude / settings.CameraShakeAmplitude)), 0f, 0f);
+                amplitude -= settings.CameraShakeAttenuation * deltaTime;
                 if (amplitude <= 0f)
                 {
                     shaking = false;
@@ -61,7 +61,7 @@ namespace FXs.Shooter
 
         private void ProjectileShot(int power)
         {
-            amplitude = power * settings.ShakeAmplitude / settings.MaxPower;
+            amplitude = power * settings.CameraShakeAmplitude / settings.MaxPower;
             shaking = true;
         }
     }

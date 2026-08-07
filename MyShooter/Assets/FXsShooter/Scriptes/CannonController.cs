@@ -5,17 +5,17 @@ namespace FXs.Shooter
     public class CannonController : MonoGameEntity
     {
         [SerializeField] private Transform pivot;
-
-        private int maxHorizontalAngle;
-        private int maxVerticalAngle;
-        private float horizontalSpeed;
-        private float verticalSpeed;
+        [SerializeField] private Transform cannon;
 
         private float hPosition;
         private float vPosition;
+        private bool gameIsStarted;
+        private float amplitude;
+        private bool shaking;
 
         private InputController inputController;
-        private bool gameIsStarted;
+        private ShooterGameSettings settings;
+        private ProjectilePhysics projectilePhysics;
 
         public override void Init()
         {
@@ -26,15 +26,17 @@ namespace FXs.Shooter
         {
             if (context.TryGetContainer(out ShooterGameSettings settings))
             {
-                maxHorizontalAngle = settings.MaxHorizontalAngle;
-                maxVerticalAngle = settings.MaxVerticalAngle;
-                horizontalSpeed = settings.HorizontalSpeed;
-                verticalSpeed = settings.VerticalSpeed;
+                this.settings = settings;
             }
 
             if(context.TryGetEntity(out InputController inputController))
             {
                 this.inputController = inputController;
+            }
+
+            if (context.TryGetEntity(out ProjectilePhysics projectilePhysics))
+            {
+                this.projectilePhysics = projectilePhysics;
             }
         }
 
@@ -43,6 +45,7 @@ namespace FXs.Shooter
             gameIsStarted = true;
            
             inputController.OnAim += Aim;
+            projectilePhysics.OnShot += ProjectileShot;
         }
 
         public override void UpdateGame()
@@ -50,6 +53,18 @@ namespace FXs.Shooter
             if(!gameIsStarted)
             {
                 return;
+            }
+
+            if (shaking)
+            {
+                float deltaTime = Time.deltaTime;
+                cannon.localPosition = new Vector3(0f, 0f, amplitude * Mathf.Sin(2f * Mathf.PI * settings.CannonShakeCurve(amplitude / settings.CannonShakeAmplitude)));
+                amplitude -= settings.CannonShakeAttenuation * deltaTime;
+                if (amplitude <= 0f)
+                {
+                    shaking = false;
+                    amplitude = 0f;
+                }
             }
         }
 
@@ -63,18 +78,25 @@ namespace FXs.Shooter
             gameIsStarted = false;
            
             inputController.OnAim -= Aim;
+            projectilePhysics.OnShot -= ProjectileShot;
         }
 
         private void Aim(float timeStep, Vector2 value)
         {
-            hPosition += horizontalSpeed * value.x * timeStep;
-            vPosition += verticalSpeed * value.y * timeStep;
+            hPosition += settings.HorizontalSpeed * value.x * timeStep;
+            vPosition += settings.VerticalSpeed * value.y * timeStep;
 
-            hPosition = Mathf.Clamp(hPosition, -maxHorizontalAngle, maxHorizontalAngle);
-            vPosition = Mathf.Clamp(vPosition, 0f, maxVerticalAngle);
+            hPosition = Mathf.Clamp(hPosition, -settings.MaxHorizontalAngle, settings.MaxHorizontalAngle);
+            vPosition = Mathf.Clamp(vPosition, 0f, settings.MaxVerticalAngle);
 
             transform.localEulerAngles = new Vector3(0f, hPosition, 0f);
             pivot.localEulerAngles = new Vector3(-vPosition, 0f, 0f);
+        }
+
+        private void ProjectileShot(int power)
+        {
+            amplitude = power * settings.CannonShakeAmplitude / settings.MaxPower;
+            shaking = true;
         }
     }
 }

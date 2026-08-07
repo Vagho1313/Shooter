@@ -18,10 +18,14 @@ namespace FXs.Shooter
         [SerializeField] private float horizontalSpeed;
         [SerializeField] private float verticalSpeed;
 
+        [SerializeField] private float cannonShakeAmplitude;
+        [SerializeField] private float cannonShakeAttenuation;
+        [SerializeField] private AnimationCurve cannonShakeCurve;
+
         [Space(10), Header("Camera Control")]
-        [SerializeField] private float shakeAmplitude;
-        [SerializeField] private float shakeAttenuation;
-        [SerializeField] private AnimationCurve shakeCurve;
+        [SerializeField] private float cameraShakeAmplitude;
+        [SerializeField] private float cameraShakeAttenuation;
+        [SerializeField] private AnimationCurve cameraShakeCurve;
 
         public int MinPower => minPower;
         public int MaxPower => maxPower;
@@ -31,9 +35,13 @@ namespace FXs.Shooter
         public float HorizontalSpeed => horizontalSpeed;
         public float VerticalSpeed => verticalSpeed;
 
-        public float ShakeAmplitude => shakeAmplitude;
-        public float ShakeAttenuation => shakeAttenuation;
-        public Func<float, float> ShakeCurve => (float power) => shakeCurve.Evaluate(power);
+        public float CannonShakeAmplitude => cannonShakeAmplitude;
+        public float CannonShakeAttenuation => cannonShakeAttenuation;
+        public Func<float, float> CannonShakeCurve => (float power) => cannonShakeCurve.Evaluate(power);
+
+        public float CameraShakeAmplitude => cameraShakeAmplitude;
+        public float CameraShakeAttenuation => cameraShakeAttenuation;
+        public Func<float, float> CameraShakeCurve => (float power) => cameraShakeCurve.Evaluate(power);
 
         public override void Init()
         {
