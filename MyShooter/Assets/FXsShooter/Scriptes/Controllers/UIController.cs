@@ -13,13 +13,14 @@ namespace FXs.Shooter
 
         public override void Init()
         {
-            powerUI.Init();
+            
         }
 
         public override void Setup(GameContext context)
         {
-            if(context.TryGetContainer(out ShooterGameSettings settings))
+            if (context.TryGetContainer(out ShooterGameSettings settings))
             {
+                powerUI.Init(settings.MaxPower);
                 powerUI.Setup(settings.MinPower, settings.MinPower, settings.MaxPower);
             }
         }

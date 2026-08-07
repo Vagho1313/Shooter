@@ -85,14 +85,12 @@ namespace FXs.Shooter
 
         private void ShotInput()
         {
-            Debug.Log($"ShotInput: {power}");
             OnShot?.Invoke(power, cannonController.Position, cannonController.Direction);
         }
 
         private void PowerChanged(int power)
         {
             this.power = power;
-            Debug.Log($"PowerChanged: {power}");
         }
     }
 }

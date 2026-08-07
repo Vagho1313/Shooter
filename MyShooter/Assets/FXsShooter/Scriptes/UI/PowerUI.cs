@@ -12,13 +12,13 @@ namespace FXs.Shooter
         public event Action<int> OnSliderChanged;
         public int Value { get; private set; }
 
-        public void Init()
+        public void Init(float maxValue)
         {
             powerSlider.onValueChanged.AddListener((float value) =>
             {
                 Value = (int)value;
                 OnSliderChanged?.Invoke(Value);
-                valueText.text = Value.ToString("0");
+                valueText.text = (100f * value / maxValue).ToString("0");
             });
         }
 
@@ -28,7 +28,7 @@ namespace FXs.Shooter
             powerSlider.minValue = minValue;
             powerSlider.maxValue = maxValue;
             powerSlider.value = value;
-            valueText.text = Value.ToString("0");
+            valueText.text = (100f * value / maxValue).ToString("0");
         }
     }
 }
