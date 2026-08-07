@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace FXs.Shooter
@@ -17,6 +18,11 @@ namespace FXs.Shooter
         [SerializeField] private float horizontalSpeed;
         [SerializeField] private float verticalSpeed;
 
+        [Space(10), Header("Camera Control")]
+        [SerializeField] private float shakeAmplitude;
+        [SerializeField] private float shakeAttenuation;
+        [SerializeField] private AnimationCurve shakeCurve;
+
         public int MinPower => minPower;
         public int MaxPower => maxPower;
 
@@ -24,6 +30,10 @@ namespace FXs.Shooter
         public int MaxVerticalAngle => maxVerticalAngle;
         public float HorizontalSpeed => horizontalSpeed;
         public float VerticalSpeed => verticalSpeed;
+
+        public float ShakeAmplitude => shakeAmplitude;
+        public float ShakeAttenuation => shakeAttenuation;
+        public Func<float, float> ShakeCurve => (float power) => shakeCurve.Evaluate(power);
 
         public override void Init()
         {
