@@ -50,11 +50,11 @@ namespace FXs.Shooter
             projectilePhysics.OnProjectileDestroyed -= ProjectileDestroyed;
         }
 
-        private void ProjectileHit(Vector3 point, Vector3 normal)
+        private void ProjectileHit(Vector3 point, Vector3 normal, Vector2 size, Transform plane)
         {
             HitEffect hitEffect = hitEffectPool.GetObject();
 
-            hitEffect.Setup(point, normal);
+            hitEffect.Setup(point, normal, size, plane);
 
             //Why need to use Renderer Texture???
         }

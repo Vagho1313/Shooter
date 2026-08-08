@@ -19,7 +19,7 @@ namespace FXs.Shooter
         private List<Projectile> removedProjectiles;
 
         public event Action<int, Vector3, Vector3> OnShot;
-        public event Action<Vector3, Vector3> OnProjectileHit;
+        public event Action<Vector3, Vector3, Vector2, Transform> OnProjectileHit;
         public event Action<Projectile> OnProjectileDestroyed;
 
         public void Init()
@@ -147,8 +147,8 @@ namespace FXs.Shooter
             }
 
             if (
-                Mathf.Abs(Vector3.Dot(projectOnPlane, plane.transform.right)) + 0.5f * projectileRadius >= 0.5f * plane.Size.x ||
-                Mathf.Abs(Vector3.Dot(projectOnPlane, plane.transform.up)) + 0.5f * projectileRadius >= 0.5f * plane.Size.y)
+                Mathf.Abs(Vector3.Dot(projectOnPlane, plane.transform.right)) - projectileRadius >= 0.5f * plane.Size.x ||
+                Mathf.Abs(Vector3.Dot(projectOnPlane, plane.transform.up)) - projectileRadius >= 0.5f * plane.Size.y)
             {
                 return false;
             }
@@ -161,7 +161,7 @@ namespace FXs.Shooter
             {
                 if (plane.hasEffect)
                 {
-                    OnProjectileHit?.Invoke(projectilePosition, planeNormal);
+                    OnProjectileHit?.Invoke(projectilePosition, planeNormal, plane.Size, plane.transform);
                 }
                 removedProjectiles.Add(projectile);
                 return true;
@@ -171,7 +171,7 @@ namespace FXs.Shooter
             projectile.velocity -= 2f * normalVelocity;
             if (plane.hasEffect)
             {
-                OnProjectileHit?.Invoke(projectilePosition, planeNormal);
+                OnProjectileHit?.Invoke(projectilePosition, planeNormal, plane.Size, plane.transform);
             }
             return true;
         }
