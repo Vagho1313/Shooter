@@ -3,6 +3,8 @@ using UnityEngine;
 
 namespace FXs.Shooter
 {
+    // Mor multiplayer need to use fixed-point physics like my Calculable Mechanics v2
+    // https://assetstore.unity.com/packages/tools/physics/angry-balls-multiplayer-with-fixed-point-physics-calculable-mech-278732
     public class ProjectilePhysics : IProjectilePhysics
     {
         private IUIController uIController;

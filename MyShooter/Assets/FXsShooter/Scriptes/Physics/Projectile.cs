@@ -4,6 +4,7 @@ namespace FXs.Shooter
 {
     public class Projectile : MonoBehaviour
     {
+        // Also need to add physics material ... 
         public float mass = 1f;
         public Vector3 velocity;
         public void Set(Vector3 position, Vector3 force)
