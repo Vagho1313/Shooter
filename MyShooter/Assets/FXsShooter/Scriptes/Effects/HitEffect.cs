@@ -17,7 +17,7 @@ namespace FXs.Shooter
         {
             size = transform.lossyScale;
 
-            transform.SetPositionAndRotation(point - normal * 0.001f, Quaternion.LookRotation(-normal));
+            transform.SetPositionAndRotation(point + normal * 0.01f, Quaternion.LookRotation(-normal));
 
             Vector3 localHit = point - wall.transform.position;
 

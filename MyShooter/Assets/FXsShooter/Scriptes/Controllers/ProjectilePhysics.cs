@@ -161,7 +161,7 @@ namespace FXs.Shooter
             {
                 if (plane.hasEffect)
                 {
-                    OnProjectileHit?.Invoke(projectilePosition, planeNormal, plane.Size, plane.transform);
+                    OnProjectileHit?.Invoke(pointOnPlane, planeNormal, plane.Size, plane.transform);
                 }
                 removedProjectiles.Add(projectile);
                 return true;
@@ -171,7 +171,7 @@ namespace FXs.Shooter
             projectile.velocity -= 2f * normalVelocity;
             if (plane.hasEffect)
             {
-                OnProjectileHit?.Invoke(projectilePosition, planeNormal, plane.Size, plane.transform);
+                OnProjectileHit?.Invoke(pointOnPlane, planeNormal, plane.Size, plane.transform);
             }
             return true;
         }
