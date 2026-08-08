@@ -46,6 +46,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5fb69fa5d41c45e9aeea3ad53eee835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meshFilter: {fileID: 3933330538441401312}
+  meshRandom: 0.2
+  bounciness: 1
+  mass: 1
+  velocity: {x: 0, y: 0, z: 0}
+  radius: 0.5
 --- !u!33 &3933330538441401312
 MeshFilter:
   m_ObjectHideFlags: 0
