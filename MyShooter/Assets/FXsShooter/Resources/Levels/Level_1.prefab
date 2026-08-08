@@ -80,6 +80,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bounciness: 0.5
+  hasEffect: 1
 --- !u!33 &3371682071387187994
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -223,6 +224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bounciness: 0.5
+  hasEffect: 1
 --- !u!33 &4648438836529454828
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -320,6 +322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bounciness: 0
+  hasEffect: 0
 --- !u!33 &3117430894573396615
 MeshFilter:
   m_ObjectHideFlags: 0

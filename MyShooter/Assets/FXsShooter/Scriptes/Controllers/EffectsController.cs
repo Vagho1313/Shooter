@@ -1,11 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace FXs.Shooter
 {
     public class EffectsController : IEffectsController
     {
+        private IProjectilePhysics projectilePhysics;
+        private ObjectPool<HitEffect> hitEffectPool;
+
         public void Init()
         {
 
@@ -13,12 +14,20 @@ namespace FXs.Shooter
 
         public void Setup(GameContext context)
         {
+            if (context.TryGetEntity(out IProjectilePhysics projectilePhysics))
+            {
+                this.projectilePhysics = projectilePhysics;
+            }
 
+            if (context.TryGetContainer(out ShooterGameSettings settings))
+            {
+                hitEffectPool = settings.CreateHitEffectPool();
+            }
         }
 
         public void StartGame()
         {
-
+            projectilePhysics.OnProjectileHit += ProjectileHit;
         }
 
         public void UpdateGame()
@@ -33,7 +42,16 @@ namespace FXs.Shooter
 
         public void EndGame()
         {
+            projectilePhysics.OnProjectileHit -= ProjectileHit;
+        }
 
+        private void ProjectileHit(Vector3 point, Vector3 normal)
+        {
+            HitEffect hitEffect = hitEffectPool.GetObject();
+
+            hitEffect.Setup(point, normal);
+
+            //Why need to use Renderer Texture???
         }
     }
 }

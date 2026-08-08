@@ -32,6 +32,9 @@ namespace FXs.Shooter
         [SerializeField] private Vector3 gravity;
         [SerializeField] private Projectile projectilePrefab;
 
+        [Space(10), Header("Effect")]
+        [SerializeField] private HitEffect hitEffectPrefab;
+
         public int MinPower => minPower;
         public int MaxPower => maxPower;
 
@@ -54,6 +57,11 @@ namespace FXs.Shooter
         public ObjectPool<Projectile> CreateProjectilePool()
         {
             return new ObjectPool<Projectile>(projectilePrefab);
+        }
+
+        public ObjectPool<HitEffect> CreateHitEffectPool()
+        {
+            return new ObjectPool<HitEffect>(hitEffectPrefab);
         }
 
         public override void Init()
