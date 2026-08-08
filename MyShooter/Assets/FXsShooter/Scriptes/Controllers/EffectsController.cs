@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace FXs.Shooter
@@ -6,6 +7,7 @@ namespace FXs.Shooter
     {
         private IProjectilePhysics projectilePhysics;
         private ObjectPool<HitEffect> hitEffectPool;
+        private ObjectPool<ParticleSystem> projectileDestroyPool;
 
         public void Init()
         {
@@ -22,12 +24,14 @@ namespace FXs.Shooter
             if (context.TryGetContainer(out ShooterGameSettings settings))
             {
                 hitEffectPool = settings.CreateHitEffectPool();
+                projectileDestroyPool = settings.CreateProjectilDestroyPool();
             }
         }
 
         public void StartGame()
         {
             projectilePhysics.OnProjectileHit += ProjectileHit;
+            projectilePhysics.OnProjectileDestroyed += ProjectileDestroyed;
         }
 
         public void UpdateGame()
@@ -43,6 +47,7 @@ namespace FXs.Shooter
         public void EndGame()
         {
             projectilePhysics.OnProjectileHit -= ProjectileHit;
+            projectilePhysics.OnProjectileDestroyed -= ProjectileDestroyed;
         }
 
         private void ProjectileHit(Vector3 point, Vector3 normal)
@@ -52,6 +57,30 @@ namespace FXs.Shooter
             hitEffect.Setup(point, normal);
 
             //Why need to use Renderer Texture???
+        }
+
+        private void ProjectileDestroyed(Projectile projectile)
+        {
+            ParticleSystem particleSystem = projectileDestroyPool.GetObject();
+
+            particleSystem.transform.position = projectile.transform.position;
+
+            particleSystem.Play();
+
+            _ = DestroyWhenStopped(particleSystem);
+        }
+
+        private async Task DestroyWhenStopped(ParticleSystem particleSystem)
+        {
+            while (particleSystem != null && particleSystem.isPlaying)
+            {
+                await Task.Yield();
+            }
+
+            if (particleSystem != null)
+            {
+                projectileDestroyPool.HideObject(particleSystem);
+            }
         }
     }
 }

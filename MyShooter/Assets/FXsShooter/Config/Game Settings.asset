@@ -74,3 +74,4 @@ MonoBehaviour:
   gravity: {x: 0, y: -10, z: 0}
   projectilePrefab: {fileID: 2727136360058581439, guid: 90b1acc581ce34256b4e4c98600cd769, type: 3}
   hitEffectPrefab: {fileID: 4524809325716093311, guid: c04aa676710684385a197b5e049dd9e2, type: 3}
+  projectilDestroyPrefab: {fileID: 3761765059281483926, guid: 5d22758617af243538294bba6f79feeb, type: 3}
