@@ -21,6 +21,7 @@ namespace FXs.Shooter
         public void StartGame()
         {
             CurrentLevel = Object.Instantiate(Resources.Load<Level>("Levels/Level_" + 1));
+            CurrentLevel.Setup();
         }
 
         public void UpdateGame()

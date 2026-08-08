@@ -79,6 +79,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5d46a16168254bd9bf412ff3cf9bc10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bounciness: 0.5
 --- !u!33 &3371682071387187994
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -221,6 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5d46a16168254bd9bf412ff3cf9bc10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bounciness: 0.5
 --- !u!33 &4648438836529454828
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -317,6 +319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5d46a16168254bd9bf412ff3cf9bc10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bounciness: 0
 --- !u!33 &3117430894573396615
 MeshFilter:
   m_ObjectHideFlags: 0

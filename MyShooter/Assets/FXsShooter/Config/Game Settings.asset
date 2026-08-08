@@ -70,5 +70,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  minSpeed: 10
   gravity: {x: 0, y: -10, z: 0}
   projectilePrefab: {fileID: 2727136360058581439, guid: 90b1acc581ce34256b4e4c98600cd769, type: 3}

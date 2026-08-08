@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace FXs.Shooter
@@ -13,7 +14,9 @@ namespace FXs.Shooter
         private ICannonController cannonController;
         private IProjectileFactory projectileFactory;
         private ShooterGameSettings settings;
+        private ILevelController levelController;
         private int power;
+        private List<Projectile> removedProjectiles;
 
         public event Action<int, Vector3, Vector3> OnShot;
         public event Action<Projectile> OnProjectileDestroyed;
@@ -49,10 +52,16 @@ namespace FXs.Shooter
             {
                 this.settings = settings;
             }
+
+            if (context.TryGetEntity(out ILevelController levelController))
+            {
+                this.levelController = levelController;
+            }            
         }
 
         public void StartGame()
         {
+            removedProjectiles = new List<Projectile>();
             PowerChanged(uIController.ShotPower);
             uIController.OnPowerChanged += PowerChanged;
             inputController.OnShoot += ShotInput;
@@ -76,7 +85,29 @@ namespace FXs.Shooter
                 projectile.velocity += timeStep * settings.Gravity;
                 projectile.transform.position += timeStep * projectile.velocity;
                 projectile.transform.LookAt(projectile.transform.position + projectile.velocity, Vector3.up);
+
+                if (projectile.transform.position.y < 0f ||
+                    projectile.velocity.sqrMagnitude < settings.MinSpeed * settings.MinSpeed)
+                {
+                    removedProjectiles.Add(projectile);
+                    continue;
+                }
+
+                foreach (Plane plane in levelController.CurrentLevel.Planes)
+                {
+                    if(CalculateHit(projectile, plane))
+                    {
+                        break;
+                    }
+                }
             }
+
+            foreach (var projectile in removedProjectiles)
+            {
+                OnProjectileDestroyed?.Invoke(projectile);
+            }
+
+            removedProjectiles.Clear();
         }
 
         public void EndGame()
@@ -93,6 +124,48 @@ namespace FXs.Shooter
         private void PowerChanged(int power)
         {
             this.power = power;
+        }
+
+        private bool CalculateHit(Projectile projectile, Plane plane)
+        {
+            Vector3 planeNormal = plane.Normal;
+
+            if (Vector3.Dot(projectile.velocity, planeNormal) > 0f)
+            {
+                return false;
+            }
+
+            float projectileRadius = projectile.radius;
+            Vector3 projectilePosition = projectile.transform.position;
+            Vector3 projectOnPlane = Vector3.ProjectOnPlane(projectilePosition - plane.Position, planeNormal);
+            Vector3 pointOnPlane = plane.Position + projectOnPlane;
+
+            if ((projectilePosition - pointOnPlane).sqrMagnitude > projectileRadius * projectileRadius)
+            {
+                return false;
+            }
+
+            if (
+                Mathf.Abs(Vector3.Dot(projectOnPlane, plane.transform.right)) + projectileRadius >= plane.Size.x ||
+                Mathf.Abs(Vector3.Dot(projectOnPlane, plane.transform.up)) + projectileRadius >= plane.Size.y)
+            {
+                return false;
+            }
+
+            float hitBounciness = projectile.bounciness * plane.bounciness;
+
+            projectile.velocity *= hitBounciness;
+
+            if (projectile.velocity.sqrMagnitude < settings.MinSpeed * settings.MinSpeed)
+            {
+                removedProjectiles.Add(projectile);
+                return true;
+            }
+
+            Vector3 normalVelocity = Vector3.Project(projectile.velocity, planeNormal);
+            projectile.velocity -= 2f * normalVelocity;
+
+            return true;
         }
     }
 }
